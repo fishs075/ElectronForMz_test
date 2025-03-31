@@ -17,11 +17,48 @@ let mainWindow = null;
     'use strict';
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
     const {app, BrowserWindow, Menu, ipcMain, shell} = require('electron');
-    const {join} = require('path');
+    const {join, dirname} = require('path');
     const {format} = require('url');
     const processArgv = process.argv[2] ?? '';
     const project = require('../project/package.json').window;
     const isMac = process.platform === 'darwin';
+    const fs = require('fs');
+    const path = require('path');
+
+    // 実行ファイルの場所にユーザーデータパスを設定
+    const setLocalUserDataPath = () => {
+        try {
+            const execDir = path.dirname(process.execPath);
+            const saveDir = path.join(execDir, 'save');
+
+            // saveディレクトリが存在しない場合は作成
+            if (!fs.existsSync(saveDir)) {
+                fs.mkdirSync(saveDir, {recursive: true});
+            }
+
+            // ゲーム情報ファイルを作成
+            const gameInfoPath = path.join(saveDir, 'GameInfo.txt');
+            const gameName = path.basename(process.execPath, path.extname(process.execPath));
+            const content = [
+                `ゲーム名: ${gameName}`,
+                `作成日時: ${new Date().toLocaleString()}`,
+                `保存場所: ${saveDir}`,
+                `実行パス: ${process.execPath}`
+            ].join('\n');
+
+            fs.writeFileSync(gameInfoPath, content);
+            console.log('ゲーム情報ファイルを作成しました:', gameInfoPath);
+
+            // ユーザーデータパスを変更
+            app.setPath('userData', saveDir);
+            console.log('データ保存先を変更しました:', saveDir);
+        } catch (e) {
+            console.error('データ保存先の設定に失敗しました:', e);
+        }
+    };
+
+    // アプリ起動前にパスを設定
+    setLocalUserDataPath();
 
     /**
      * This code ensures that the window creation process occurs once the Electron app
