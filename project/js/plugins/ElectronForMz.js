@@ -43,11 +43,11 @@
         } else {
             return _Main_isPathRandomized.apply(this, arguments);
         }
-    }
+    };
 
     Utils.isElectron = function () {
         return !!window.electronAPI;
-    }
+    };
 
     if (!Utils.isElectron()) {
         return;
@@ -60,21 +60,8 @@
     });
 
     const _Utils_isOptionValid = Utils.isOptionValid;
-    Utils.isOptionValid = function(name) {
+    Utils.isOptionValid = function (name) {
         return _Utils_isOptionValid.apply(this, arguments) || options.split(',').includes(name);
-    };
-
-    const _StorageManager_fileDirectoryPath = StorageManager.fileDirectoryPath;
-    StorageManager.localFileDirectoryPath = function () {
-        const path = require('path');
-        if (Utils.isElectron()) {
-            const base = path.dirname(__filename);
-            return Utils.isOptionValid('test')
-                ? path.join(base, 'save/')
-                : path.join(base, '../../save/');
-        } else {
-            return _StorageManager_fileDirectoryPath.apply(this, arguments);
-        }
     };
 
     const _SceneManager_reloadGame = SceneManager.reloadGame;
@@ -87,7 +74,7 @@
     };
 
     const _SceneManager_showDevTools = SceneManager.showDevTools;
-    SceneManager.showDevTools = function() {
+    SceneManager.showDevTools = function () {
         _SceneManager_showDevTools.apply(this, arguments);
         if (Utils.isOptionValid('test')) {
             window.electronAPI.openDevTools();
@@ -95,11 +82,21 @@
     };
 
     const _SceneManager_terminate = SceneManager.terminate;
-    SceneManager.terminate = function() {
+    SceneManager.terminate = function () {
         if (Utils.isElectron()) {
             window.close();
         } else {
             _SceneManager_terminate.apply(this, arguments);
+        }
+    };
+
+    // Utils.isNwjsが常にfalseを返すようにしておく
+    const _Utils_isNwjs = Utils.isNwjs;
+    Utils.isNwjs = function () {
+        if (Utils.isElectron()) {
+            return false; // Electronの場合はfalseを返して、Webモードとして扱わせる
+        } else {
+            return _Utils_isNwjs.apply(this, arguments);
         }
     };
 })();
