@@ -4,6 +4,12 @@
 
 あ、ちなみにAIにやってもらったので技術的なことについてはさっぱりです
 
+使い方はトリアコンタンさんのノートか<br>
+https://qiita.com/triacontane/items/a8610bff9778ca2aaa3e<br>
+私が実際にやってみた結果<br>
+https://note.com/good_acacia483/n/nadf37f39c8f4<br>
+を参考にしてください<br>
+
 色々とテストしてみましたが、問題はないと思われます<br>
 （ただしWindows環境のみ）<br>
 心配な方は改変したソースコードを読んで各自判断をしてください。<br>
