@@ -36,19 +36,6 @@ let mainWindow = null;
                 fs.mkdirSync(saveDir, {recursive: true});
             }
 
-            // ゲーム情報ファイルを作成
-            const gameInfoPath = path.join(saveDir, 'GameInfo.txt');
-            const gameName = path.basename(process.execPath, path.extname(process.execPath));
-            const content = [
-                `ゲーム名: ${gameName}`,
-                `作成日時: ${new Date().toLocaleString()}`,
-                `保存場所: ${saveDir}`,
-                `実行パス: ${process.execPath}`
-            ].join('\n');
-
-            fs.writeFileSync(gameInfoPath, content);
-            console.log('ゲーム情報ファイルを作成しました:', gameInfoPath);
-
             // ユーザーデータパスを変更
             app.setPath('userData', saveDir);
             console.log('データ保存先を変更しました:', saveDir);
