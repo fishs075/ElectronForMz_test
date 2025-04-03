@@ -1,3 +1,6 @@
+DLはこちらから
+https://github.com/fishs075/ElectronForMz_test/tree/main
+
 どうも、さかなのまえあしです。<br>
 今回はトリアコンタンさんのElectronForMzプロジェクトでローカルセーブに成功したっぽい物ができたので検証用にクローンして差分をアップデートさせていただきました<br>
 改変したのはmain.jsとプラグインのElectronForMz.jsになります<br>
